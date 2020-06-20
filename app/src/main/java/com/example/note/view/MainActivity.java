@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,11 +38,6 @@ import java.util.Collections;
 import java.util.List;
 
 
-import com.android.internal.telephony.*;
-
-import android.telephony.TelephonyManager;
-
-
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private DB db;                       //数据库
@@ -54,31 +50,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private List<Note> noteList = new ArrayList<>();
     private Toolbar mytoolbar;         //顶部工具栏
     private boolean timeRank = false;  //时间逆序排序标记(默认不按时间逆序排序)
-    private String IMEI;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        IMEI = telephonyManager.getImei();
-
-
-
-
-
 
 
         listView = findViewById(R.id.lv);
@@ -103,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 timeRank = !timeRank;
-                if (timeRank==false){
+                if (!timeRank){
                     Toast.makeText(MainActivity.this, "按最初创建时间排序", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(MainActivity.this, "按最后修改时间排序", Toast.LENGTH_SHORT).show();
@@ -215,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         operate.open();
         noteList.addAll(operate.getAllNotes());
         operate.close();
-        if(timeRank==true){                                                                   //比较time进行时间排序（要先于tag排序，因为tag排序优先级更高）
+        if(timeRank){                                                                   //比较time进行时间排序（要先于tag排序，因为tag排序优先级更高）
             Compare_time compare_time = new Compare_time();
             Collections.sort(noteList,compare_time);
         }
