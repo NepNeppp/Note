@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:title="查找日志"/>
+    <item
+        android:id="@+id/menu_clean"
+        android:icon="@drawable/ic_delete_forever_black_24dp"
+        android:title="Clear"
+        app:showAsAction="always"/>
+
+</menu>
